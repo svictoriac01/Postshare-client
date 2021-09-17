@@ -1,0 +1,7 @@
+{
+  "name": "postshare",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

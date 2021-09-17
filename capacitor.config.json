@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "postshare",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
