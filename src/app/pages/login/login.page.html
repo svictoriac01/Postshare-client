@@ -1,6 +1,6 @@
 <ion-content>
 
-  <ion-slides class="mainSlide">
+  <ion-slides class="mainSlide" #slidePrincipal>
     <ion-slide class="ion-no-margin">
 
       <form (ngSubmit)="login(fLogin)" #fLogin="ngForm">
@@ -17,11 +17,11 @@
               <ion-list>
                 <ion-item class="ion-no-padding">
                   <ion-label position="floating">Usuario</ion-label>
-                  <ion-input name="email" type="email" required></ion-input>
+                  <ion-input name="email" type="email" [(ngModel)]="loginUser.user" required></ion-input>
                 </ion-item>
                 <ion-item class="ion-no-padding">
                   <ion-label position="floating">Password</ion-label>
-                  <ion-input name="password" type="password" required></ion-input>
+                  <ion-input name="password" type="password" [(ngModel)]="loginUser.password" required></ion-input>
                 </ion-item>
 
               </ion-list>

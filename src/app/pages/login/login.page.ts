@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { IonSlides, NavController } from '@ionic/angular';
+import { UsuarioService } from '../../services/usuario.service';
+import { UiServiceService } from '../../services/ui-service.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-login',
@@ -8,51 +11,32 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  // Hace referencia a un elemento del DOM
+  @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
+  loginUser = { user: 'santivc_07', password: '4321' };
 
-  avatars = [
-    {
-      img: 'av-1.png',
-      seleccionado: true
-    },
-    {
-      img: 'av-2.png',
-      seleccionado: false
-    },
-    {
-      img: 'av-3.png',
-      seleccionado: false
-    },
-    {
-      img: 'av-4.png',
-      seleccionado: false
-    },
-    {
-      img: 'av-5.png',
-      seleccionado: false
-    },
-    {
-      img: 'av-6.png',
-      seleccionado: false
-    },
-    {
-      img: 'av-7.png',
-      seleccionado: false
-    },
-    {
-      img: 'av-8.png',
-      seleccionado: false
-    },
-  ];
+  constructor(private navCtrl: NavController, private usuarioService: UsuarioService,
+    private uiService: UiServiceService) { }
 
-  constructor(private navCtrl: NavController) { }
-
-  ngOnInit() {
+  async ngOnInit() {
+    await this.slides.lockSwipes(true);
   }
 
-
   // Login
-  login(fLogin: NgForm) {
+  async login(fLogin: NgForm) {
+    if (fLogin.invalid) { return; }
+    const exist = await this.usuarioService.login(this.loginUser.user, this.loginUser.password);
+
+    if (exist) {
+      // Navegar a tabs
+      this.navCtrl.navigateRoot('/main/tabs/tab1', { animated: true });
+    } else {
+      // Mostrar alerta de que el login no es correcto
+      this.uiService.presentAlert('Nombre de usuario y / o contraseña no válidos');
+    }
+
     console.log(fLogin.valid);
+    console.log(this.loginUser);
   }
 
   // Ir a registro
