@@ -16,7 +16,10 @@ export class PostsService {
   constructor(private http: HttpClient) { }
 
   // Obtener lista de posts
-  getPosts() {
+  getPosts(refresher: boolean = false) {
+    if (refresher) {
+      this.paginaPosts = 0;
+    }
     // Cada vez que se llama al metodo cambia de página
     this.paginaPosts++;
     return this.http.get<RespuestaPosts>(`${URL}/posts/?pagina=${this.paginaPosts}`);

@@ -10,14 +10,37 @@ import { Post } from '../../interfaces/posts.interface';
 export class Tab1Page implements OnInit {
 
   posts: Post[] = [];
+  disabled = false;
 
   constructor(private postsService: PostsService) { }
 
-  // Obtenemos las publicaciones
+  // Obtener las publicaciones
   ngOnInit(): void {
-    this.postsService.getPosts().subscribe(res => {
-      this.posts.push(...res.posts); //Añadimos los posts como elementos individuales al array
+    this.loadData();
+  }
+
+  // Refrescar elementos
+  doRefresh(event) {
+    this.loadData(event, true);
+    this.disabled = false;
+    this.posts = [];
+  }
+
+  // Cargar nuevos elementos
+  loadData(event?: any, refresher: boolean = false) {
+
+    this.postsService.getPosts(refresher).subscribe(res => {
       console.log(res);
+      this.posts.push(...res.posts); //Añade los posts como elementos individuales al array
+      if (event) {
+        event.target.complete();
+
+        if (res.posts.length === 0) {
+          this.disabled = true;
+        }
+      }
     });
   }
 }
+
+

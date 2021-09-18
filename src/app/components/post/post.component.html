@@ -5,32 +5,25 @@
     <ion-avatar slot="start">
       <img src="/assets/avatars/av-1.png" />
     </ion-avatar>
-
     <ion-label>
       <h3>{{post.usuario.name}}</h3>
-      <h5>{{post.usuario.username}}</h5>
+      <h5 style="color: gray;">@{{post.usuario.username}}</h5>
     </ion-label>
   </ion-item>
 
   <!-- Fotos -->
   <ion-slides mode="ios" pager="ios">
-    <ion-slide>
-      <ion-img src="/assets/perro-1.jpg"></ion-img>
-    </ion-slide>
-    <ion-slide>
-      <ion-img src="/assets/perro-2.jpg"></ion-img>
-    </ion-slide>
-    <ion-slide>
-      <ion-img src="/assets/perro-3.jpg"></ion-img>
-    </ion-slide>
+    <ion-slide class="image-slide" [style]="img1 | domSanitizer"></ion-slide>
+    <ion-slide class="image-slide" [style]="img2 | domSanitizer"></ion-slide>
+    <ion-slide class="image-slide" [style]="img3 | domSanitizer"></ion-slide>
   </ion-slides>
 
   <!-- Mapa -->
 
   <!-- Mensaje -->
-  <ion-card-content class="ion-text-justify">
-    {{post.message}}
-  </ion-card-content>
+  <ion-item lines="none">
+    <ion-label>{{post.message}}</ion-label>
+  </ion-item>
 
   <!-- Botones -->
   <ion-item lines="none">
@@ -38,7 +31,6 @@
       <ion-button>
         <ion-icon name="heart-outline" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-label>{{post.favs}}</ion-label>
       <ion-label *ngIf="post.favs > 0">{{post.favs}}</ion-label>
     </ion-buttons>
 
@@ -47,6 +39,5 @@
         <ion-icon name="share-social-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-item>
 </ion-card>
