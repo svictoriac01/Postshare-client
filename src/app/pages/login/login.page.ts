@@ -32,11 +32,8 @@ export class LoginPage implements OnInit {
       this.navCtrl.navigateRoot('/main/tabs/tab1', { animated: true });
     } else {
       // Mostrar alerta de que el login no es correcto
-      this.uiService.presentAlert('Nombre de usuario y / o contraseña no válidos');
+      await this.uiService.presentAlert('Nombre de usuario y / o contraseña no válidos');
     }
-
-    console.log(fLogin.valid);
-    console.log(this.loginUser);
   }
 
   // Ir a registro

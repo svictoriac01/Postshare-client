@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
@@ -35,11 +36,11 @@ export class UsuarioService {
     const data = { user, password };
     return new Promise<boolean>(resolve => {
 
-      this.http.post<LoginResponse>(`${URL}/user/login`, data).subscribe(resp => {
+      this.http.post<LoginResponse>(`${URL}/user/login`, data).subscribe(async (resp) => {
         console.log(resp);
         // Si el login es correcto el token se guarda en el localStorage
         if (resp.ok) {
-          this.saveToken(resp.token);
+          await this.saveToken(resp.token);
           resolve(true);
 
         } else {
@@ -55,11 +56,11 @@ export class UsuarioService {
   register(usuario: Usuario) {
     return new Promise(resolve => {
 
-      this.http.post<LoginResponse>(`${URL}/user/create`, usuario).subscribe(resp => {
+      this.http.post<LoginResponse>(`${URL}/user/create`, usuario).subscribe(async (resp) => {
         console.log(resp);
         // Si el registro es correcto el token se guarda en el localStorage
         if (resp.ok) {
-          this.saveToken(resp.token);
+          await this.saveToken(resp.token);
           resolve(true);
 
         } else {
@@ -75,7 +76,8 @@ export class UsuarioService {
   // Guardar token en el localStorage
   async saveToken(token: string) {
     this.token = token;
-    await this._storage.set('token', token);
+    await this._storage.set('token', this.token);
+    await this.validToken();
   }
 
   // Obtener token del localStorage
@@ -85,6 +87,7 @@ export class UsuarioService {
 
   // Verificar token
   async validToken(): Promise<boolean> {
+    //debugger;
     await this.getToken();
 
     // Si no existe token se redirige al login

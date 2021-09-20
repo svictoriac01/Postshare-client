@@ -40,11 +40,9 @@ export class RegisterPage implements OnInit {
       this.navCtrl.navigateRoot('/main/tabs/tab1', { animated: true });
     } else {
       // Mostrar alerta de que el login no es correcto
-      this.uiService.presentAlert('El usuario o email ya existen');
+      await this.uiService.presentAlert('El usuario o email ya existen');
     }
 
-    console.log(fRegister.valid);
-    console.log(this.registerUser);
   }
 
   // Menu para subir un avatar
