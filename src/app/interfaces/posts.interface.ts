@@ -1,3 +1,5 @@
+import { Usuario } from './usuario.interface';
+
 /* eslint-disable @typescript-eslint/naming-convention */
 export interface RespuestaPosts {
     ok: boolean;
@@ -15,10 +17,3 @@ export interface Post {
     created?: string;
 }
 
-export interface Usuario {
-    avatar?: string;
-    _id?: string;
-    name?: string;
-    username?: string;
-    email?: string;
-}

@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonSlides } from '@ionic/angular';
+import { ActionSheetController, IonSlides, NavController } from '@ionic/angular';
+import { Usuario } from 'src/app/interfaces/usuario.interface';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { UiServiceService } from '../../services/ui-service.service';
 
 @Component({
   selector: 'app-register',
@@ -11,14 +14,66 @@ export class RegisterPage implements OnInit {
 
   // Hace referencia a un elemento del DOM
   @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
+  registerUser: Usuario = {
+    email: 'test04@hotmail.com',
+    password: '4321',
+    name: 'test04',
+    username: 'test_04',
+    avatar: 'default.png'
+  };
 
-  constructor() { }
+  constructor(private usuarioService: UsuarioService,
+    private navCtrl: NavController, private uiService: UiServiceService,
+    private actionCtrl: ActionSheetController) { }
 
   async ngOnInit() {
     await this.slides.lockSwipes(true);
   }
 
-  register(fRegister: NgForm) {
+  // Registrar un usuario
+  async register(fRegister: NgForm) {
+    if (fRegister.invalid) { return; }
+    const valido = await this.usuarioService.register(this.registerUser);
+
+    if (valido) {
+      // Navegar a tabs
+      this.navCtrl.navigateRoot('/main/tabs/tab1', { animated: true });
+    } else {
+      // Mostrar alerta de que el login no es correcto
+      this.uiService.presentAlert('El usuario o email ya existen');
+    }
+
     console.log(fRegister.valid);
+    console.log(this.registerUser);
+  }
+
+  // Menu para subir un avatar
+  async presentActionSheet() {
+    const actionSheet = await this.actionCtrl.create({
+      header: 'Foto del perfil',
+      buttons: [
+        {
+          text: 'Galería',
+          icon: 'image',
+          handler: () => {
+            console.log('Play clicked');
+          }
+        }, {
+          text: 'Cámara',
+          icon: 'camera',
+          handler: () => {
+            console.log('Favorite clicked');
+          }
+        }, {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }]
+    });
+    await actionSheet.present();
+
   }
 }

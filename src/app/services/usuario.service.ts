@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment';
-import { LoginResponse } from '../interfaces/usuario.interface';
+import { LoginResponse, UsuarioResponse } from '../interfaces/usuario.interface';
+import { Usuario } from '../interfaces/usuario.interface';
+import { NavController } from '@ionic/angular';
 
 const URL = environment.url;
 
@@ -13,11 +15,12 @@ const URL = environment.url;
 })
 export class UsuarioService {
 
-  public token = null;
+  token = null;
+  usuario: Usuario = {};
   private _storage: Storage | null = null;
 
   // Inyectar servicios o modulos
-  constructor(private http: HttpClient, private storage: Storage) {
+  constructor(private http: HttpClient, private storage: Storage, private navCtrl: NavController) {
     this.init();
   }
 
@@ -49,10 +52,59 @@ export class UsuarioService {
     });
   }
 
+  register(usuario: Usuario) {
+    return new Promise(resolve => {
+
+      this.http.post<LoginResponse>(`${URL}/user/create`, usuario).subscribe(resp => {
+        console.log(resp);
+        // Si el registro es correcto el token se guarda en el localStorage
+        if (resp.ok) {
+          this.saveToken(resp.token);
+          resolve(true);
+
+        } else {
+          // Si el registro no es correcto se borran los datos
+          this.token = null;
+          this._storage.clear();
+          resolve(false);
+        }
+      });
+    });
+  }
+
+  // Guardar token en el localStorage
   async saveToken(token: string) {
     this.token = token;
     await this._storage.set('token', token);
   }
 
+  // Obtener token del localStorage
+  async getToken() {
+    this.token = await this.storage.get('token') || null;
+  }
 
+  // Verificar token
+  async validToken(): Promise<boolean> {
+    await this.getToken();
+
+    // Si no existe token se redirige al login
+    if (!this.token) {
+      this.navCtrl.navigateRoot('/login');
+      return Promise.resolve(false);
+    }
+
+    return new Promise<boolean>(resolve => {
+      const headers = new HttpHeaders({ 'x-token': this.token });
+
+      this.http.get<UsuarioResponse>(`${URL}/user/`, { headers }).subscribe(resp => {
+        if (resp.ok) {
+          this.usuario = resp.usuario;
+          resolve(true);
+        } else {
+          this.navCtrl.navigateRoot('/login');
+          resolve(false);
+        }
+      });
+    });
+  }
 }
