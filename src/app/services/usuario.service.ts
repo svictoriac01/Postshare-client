@@ -46,7 +46,7 @@ export class UsuarioService {
         } else {
           // Si el login no es correcto se borran los datos
           this.token = null;
-          this._storage.clear();
+          await this._storage.clear();
           resolve(false);
         }
       });
@@ -66,7 +66,7 @@ export class UsuarioService {
         } else {
           // Si el registro no es correcto se borran los datos
           this.token = null;
-          this._storage.clear();
+          await this._storage.clear();
           resolve(false);
         }
       });
