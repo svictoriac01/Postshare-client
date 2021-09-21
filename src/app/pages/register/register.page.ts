@@ -46,32 +46,7 @@ export class RegisterPage implements OnInit {
   }
 
   // Menu para subir un avatar
-  async presentActionSheet() {
-    const actionSheet = await this.actionCtrl.create({
-      header: 'Foto del perfil',
-      buttons: [
-        {
-          text: 'Galería',
-          icon: 'image',
-          handler: () => {
-            console.log('Play clicked');
-          }
-        }, {
-          text: 'Cámara',
-          icon: 'camera',
-          handler: () => {
-            console.log('Favorite clicked');
-          }
-        }, {
-          text: 'Cancelar',
-          icon: 'close',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }]
-    });
-    await actionSheet.present();
-
+  async subirImagen() {
+    await this.uiService.presentActionSheet();
   }
 }

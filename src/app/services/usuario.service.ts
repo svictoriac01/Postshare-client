@@ -17,7 +17,7 @@ const URL = environment.url;
 export class UsuarioService {
 
   token = null;
-  usuario: Usuario = {};
+  private usuario: Usuario = {};
   private _storage: Storage | null = null;
 
   // Inyectar servicios o modulos
@@ -73,6 +73,15 @@ export class UsuarioService {
     });
   }
 
+  // Obtener usuario
+  getUsuario() {
+    if (!this.usuario._id) {
+      this.validToken();
+    }
+    return { ...this.usuario };
+  }
+
+
   // Guardar token en el localStorage
   async saveToken(token: string) {
     this.token = token;
@@ -110,4 +119,26 @@ export class UsuarioService {
       });
     });
   }
+
+  // Actualizar usuario
+  update(usuario: Usuario) {
+    const headers = new HttpHeaders({ 'x-token': this.token });
+
+    return new Promise<boolean>(resolve => {
+      this.http.put<LoginResponse>(`${URL}/user/update`, usuario, { headers }).subscribe(async (resp) => {
+        // Si el registro es correcto el token se guarda en el localStorage
+        if (resp.ok) {
+          await this.saveToken(resp.token);
+          resolve(true);
+
+        } else {
+          // Si el registro no es correcto se borran los datos
+          this.token = null;
+          await this._storage.clear();
+          resolve(false);
+        }
+      });
+    });
+  }
+
 }
