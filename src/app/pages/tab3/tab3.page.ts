@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActionSheetController, IonSlides } from '@ionic/angular';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { UsuarioService } from '../../services/usuario.service';
 import { NgForm } from '@angular/forms';
@@ -11,16 +11,18 @@ import { UiServiceService } from '../../services/ui-service.service';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit {
-
+  @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
   usuario: Usuario = {};
 
   constructor(private usuarioService: UsuarioService, private uiService: UiServiceService) { }
 
 
   ngOnInit(): void {
+    this.slides.lockSwipes(true);
     this.usuario = this.usuarioService.getUsuario();
   }
 
+  // Actualizar usuario
   async actualizar(fUpdate: NgForm) {
     if (fUpdate.invalid) { return; }
 

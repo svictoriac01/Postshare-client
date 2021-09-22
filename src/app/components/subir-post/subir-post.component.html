@@ -1,0 +1,60 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="return()" color="primary">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="crearPost()" [disabled]="post.message.length < 1" color="primary || loadLocation">
+        Compartir
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label position="floating">Mensaje</ion-label>
+      <ion-textarea [(ngModel)]="post.message"></ion-textarea>
+    </ion-item>
+
+    <ion-list>
+      <ion-item>
+        <ion-label>Ubicación actual</ion-label>
+        <ion-spinner name="lines-small" *ngIf="loadLocation"></ion-spinner>
+        <ion-toggle slot="end" [(ngModel)]="post.position" (ionChange)="getLocation()"></ion-toggle>
+      </ion-item>
+    </ion-list>
+
+
+  </ion-list>
+
+  <ion-row>
+    <ion-col size="6">
+      <ion-button expand="full" shape="round">
+        <ion-icon slot="start" name="camera"></ion-icon>
+        Cámara
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button expand="full" shape="round">
+        <ion-icon slot="start" name="images"></ion-icon>
+        Galería
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="3" *ngFor="let image of tempImages">
+      <ion-card>
+        <img src="">
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+
+</ion-content>
