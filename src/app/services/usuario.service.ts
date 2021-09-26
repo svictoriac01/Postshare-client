@@ -141,4 +141,10 @@ export class UsuarioService {
     });
   }
 
+  async logout() {
+    this.token = null;
+    this.usuario = null;
+    await this._storage.remove('token');
+    this.navCtrl.navigateRoot('/login');
+  }
 }

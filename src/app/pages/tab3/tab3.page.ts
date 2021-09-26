@@ -4,6 +4,7 @@ import { Usuario } from '../../interfaces/usuario.interface';
 import { UsuarioService } from '../../services/usuario.service';
 import { NgForm } from '@angular/forms';
 import { UiServiceService } from '../../services/ui-service.service';
+import { PostsService } from '../../services/posts.service';
 
 @Component({
   selector: 'app-tab3',
@@ -14,7 +15,8 @@ export class Tab3Page implements OnInit {
   @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
   usuario: Usuario = {};
 
-  constructor(private usuarioService: UsuarioService, private uiService: UiServiceService) { }
+  constructor(private usuarioService: UsuarioService, private uiService: UiServiceService,
+    private postsService: PostsService) { }
 
 
   ngOnInit(): void {
@@ -36,8 +38,9 @@ export class Tab3Page implements OnInit {
     }
   }
 
-  logout() {
-
+  async logout() {
+    this.postsService.paginaPosts = 0;
+    await this.usuarioService.logout();
   }
 
   // Menu para subir un avatar
