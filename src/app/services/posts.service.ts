@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Post, RespuestaPosts, RespuestaPost } from '../interfaces/posts.interface';
 import { UsuarioService } from './usuario.service';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 
 // Url API-REST
 const URL = environment.url;
@@ -19,7 +20,8 @@ export class PostsService {
   newPost = new EventEmitter<Post>();
 
   constructor(private http: HttpClient,
-    private usuarioService: UsuarioService) { }
+    private usuarioService: UsuarioService,
+    private fileTransfer: FileTransfer) { }
 
   // Obtener lista de posts
   getPosts(refresher: boolean = false) {
@@ -44,8 +46,6 @@ export class PostsService {
     });
   }
 
-
-
   // Actualizar post
   updatePosts(post: Post) {
     const headers = new HttpHeaders({ 'x-token': this.usuarioService.token });
@@ -59,6 +59,21 @@ export class PostsService {
           resolve(false);
         }
       });
+    });
+  }
+  // Servicio para subir archivos
+  uploadImage(img: string) {
+    const options: FileUploadOptions = {
+      fileKey: 'image',
+      headers: {
+        'x-token': this.usuarioService.token
+      }
+    };
+    const fileTransfer: FileTransferObject = this.fileTransfer.create();
+    fileTransfer.upload(img, `${URL}/posts/upload`, options).then(data => {
+      console.log(data);
+    }).catch(err => {
+      console.log('Error en carga:', err);
     });
   }
 }
