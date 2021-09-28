@@ -3,18 +3,21 @@ ion-slides, ion-slides ion-slide {
     height: 100% !important;
 }
 
-
-div {
+form {
     width: 90% !important;
     height: 80% !important;
-
 }
 
+
+.button-avatar {
+    border-radius: 100%;
+    width: 140px;
+    height: 140px;
+}
 
 ion-avatar {
     min-width: 120px;
     min-height: 120px;
-    margin: auto;
 }
 
 img {

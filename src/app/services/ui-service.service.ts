@@ -6,8 +6,7 @@ import { AlertController, ActionSheetController, ToastController } from '@ionic/
 })
 export class UiServiceService {
 
-  constructor(private alertCtrl: AlertController,
-    private actionCtrl: ActionSheetController, private toastCtrl: ToastController) { }
+  constructor(private alertCtrl: AlertController, private toastCtrl: ToastController) { }
 
   async presentAlert(message: string) {
     const alert = await this.alertCtrl.create({
@@ -24,34 +23,5 @@ export class UiServiceService {
       duration: 1500
     });
     toast.present();
-  }
-
-
-  async presentActionSheet() {
-    const actionSheet = await this.actionCtrl.create({
-      header: 'Foto del perfil',
-      buttons: [
-        {
-          text: 'Galería',
-          icon: 'image',
-          handler: () => {
-            console.log('Play clicked');
-          }
-        }, {
-          text: 'Cámara',
-          icon: 'camera',
-          handler: () => {
-            console.log('Favorite clicked');
-          }
-        }, {
-          text: 'Cancelar',
-          icon: 'close',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }]
-    });
-    await actionSheet.present();
   }
 }

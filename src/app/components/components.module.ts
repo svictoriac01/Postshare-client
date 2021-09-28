@@ -7,6 +7,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { SubirPostComponent } from './subir-post/subir-post.component';
 import { FormsModule } from '@angular/forms';
 import { MapaComponent } from './mapa/mapa.component';
+import { ActualizarUsuarioComponent } from './actualizar-usuario/actualizar-usuario.component';
 
 
 
@@ -15,7 +16,8 @@ import { MapaComponent } from './mapa/mapa.component';
     PostComponent,
     PostsComponent,
     SubirPostComponent,
-    MapaComponent
+    MapaComponent,
+    ActualizarUsuarioComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,7 @@ import { MapaComponent } from './mapa/mapa.component';
   exports: [
     PostsComponent,
     SubirPostComponent,
+    ActualizarUsuarioComponent
   ]
 })
 export class ComponentsModule { }

@@ -19,9 +19,5 @@
     <param name="android-package" value="org.apache.cordova.geolocation.Geolocation"/>
   </feature>
 
-  <feature name="ImageResizer">
-    <param name="android-package" value="info.protonet.imageresizer.ImageResizer"/>
-  </feature>
-
   
 </widget>

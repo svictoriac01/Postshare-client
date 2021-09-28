@@ -76,4 +76,12 @@ export class PostsService {
       console.log('Error en carga:', err);
     });
   }
+
+
+  cleanTemp() {
+    const headers = new HttpHeaders({ 'x-token': this.usuarioService.token });
+    this.http.delete(`${URL}/posts/temp`, { headers }).subscribe(resp => {
+      console.log(resp['ok']);
+    });
+  }
 }

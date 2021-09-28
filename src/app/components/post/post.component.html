@@ -3,7 +3,7 @@
   <!-- Usuario -->
   <ion-item lines="none">
     <ion-avatar slot="start">
-      <img src="/assets/avatars/av-1.png" />
+      <img [src]="post.usuario.avatar | avatar:post.usuario._id" />
     </ion-avatar>
     <ion-label>
       <h3>{{post.usuario.name}}</h3>

@@ -65,6 +65,7 @@ export class SubirPostComponent implements OnInit {
   return() {
     this.tempImages = [];
     this.post = { message: '', coords: null, position: false };
+    this.postsService.cleanTemp();
     this.modalCtrl.dismiss();
   }
 

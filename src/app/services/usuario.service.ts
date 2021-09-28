@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable no-debugger */
 /* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable no-underscore-dangle */
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment';
 import { LoginResponse, UsuarioResponse } from '../interfaces/usuario.interface';
 import { Usuario } from '../interfaces/usuario.interface';
 import { NavController } from '@ionic/angular';
+import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer/ngx';
 
 const URL = environment.url;
 
@@ -17,11 +19,13 @@ const URL = environment.url;
 export class UsuarioService {
 
   token = null;
+  newAvatar = new EventEmitter<string>();
   private usuario: Usuario = {};
   private _storage: Storage | null = null;
 
   // Inyectar servicios o modulos
-  constructor(private http: HttpClient, private storage: Storage, private navCtrl: NavController) {
+  constructor(private http: HttpClient, private storage: Storage,
+    private navCtrl: NavController, private fileTransfer: FileTransfer) {
     this.init();
   }
 
@@ -74,10 +78,11 @@ export class UsuarioService {
   }
 
   // Obtener usuario
-  getUsuario() {
+  async getUsuario() {
     if (!this.usuario._id) {
-      this.validToken();
+      await this.validToken();
     }
+    await this.validToken();
     return { ...this.usuario };
   }
 
@@ -129,6 +134,8 @@ export class UsuarioService {
         // Si el registro es correcto el token se guarda en el localStorage
         if (resp.ok) {
           await this.saveToken(resp.token);
+          //console.log(usuario);
+          this.newAvatar.emit(resp.token);
           resolve(true);
 
         } else {
@@ -141,10 +148,47 @@ export class UsuarioService {
     });
   }
 
-  async logout() {
+  logout() {
     this.token = null;
     this.usuario = null;
-    await this._storage.remove('token');
+    this._storage.remove('token');
     this.navCtrl.navigateRoot('/login');
   }
+
+  uploadAvatar(img: string) {
+    const options: FileUploadOptions = {
+      fileKey: 'image',
+      headers: {
+        'x-token': this.token
+      }
+    };
+    const fileTransfer: FileTransferObject = this.fileTransfer.create();
+    fileTransfer.upload(img, `${URL}/user/upload`, options).then(data => {
+      //console.log(data);
+    }).catch(err => {
+      console.log('Error en carga:', err);
+    });
+  }
+
+  // Obtener dato de usuario pasando token
+  getDataUsuario(token: string) {
+    return new Promise<Usuario>(resolve => {
+      const headers = new HttpHeaders({ 'x-token': token });
+
+      this.http.get<UsuarioResponse>(`${URL}/user/`, { headers }).subscribe(resp => {
+        if (resp.ok) {
+          this.usuario = resp.usuario;
+          resolve(resp.usuario);
+        }
+      });
+    });
+  }
+
+  cleanTemp() {
+    const headers = new HttpHeaders({ 'x-token': this.token });
+    this.http.delete(`${URL}/user/temp`, { headers }).subscribe(resp => {
+      console.log(resp['ok']);
+    });
+  }
+
 }
