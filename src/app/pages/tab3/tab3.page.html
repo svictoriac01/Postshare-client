@@ -18,7 +18,7 @@
 
       <div>
         <ion-grid fixed>
-          <ion-row>
+          <ion-row class="animate__animated animate__fadeIn">
             <ion-col class="ion-no-padding">
                 <ion-avatar>
                   <ion-img [src]="usuario.avatar | avatar:usuario._id"></ion-img>
@@ -26,7 +26,7 @@
             </ion-col>
           </ion-row>
 
-          <ion-row>
+          <ion-row class="animate__animated animate__fadeIn">
             <ion-col>
               <ion-list>
                 <ion-item class="ion-no-padding">
@@ -41,7 +41,7 @@
             </ion-col>
           </ion-row>
 
-          <ion-row class="ion-margin">
+          <ion-row class="ion-margin animate__animated animate__fadeIn">
             <ion-col>
               <ion-button color="primary" expand="block" class="ion-no-padding" (click)="actualizar()">
                 <span class="ion-text-capitalize">Editar</span>

@@ -38,6 +38,6 @@ export class LoginPage implements OnInit {
 
   // Ir a registro
   toRegister() {
-    this.navCtrl.navigateRoot('/register', { animated: true });
+    this.navCtrl.navigateRoot('/auth/register', { animated: true });
   }
 }

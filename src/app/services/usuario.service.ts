@@ -106,7 +106,7 @@ export class UsuarioService {
 
     // Si no existe token se redirige al login
     if (!this.token) {
-      this.navCtrl.navigateRoot('/login');
+      this.navCtrl.navigateRoot('/auth/login');
       return Promise.resolve(false);
     }
 
@@ -118,7 +118,7 @@ export class UsuarioService {
           this.usuario = resp.usuario;
           resolve(true);
         } else {
-          this.navCtrl.navigateRoot('/login');
+          this.navCtrl.navigateRoot('/auth/login');
           resolve(false);
         }
       });
@@ -152,7 +152,7 @@ export class UsuarioService {
     this.token = null;
     this.usuario = null;
     this._storage.remove('token');
-    this.navCtrl.navigateRoot('/login');
+    this.navCtrl.navigateRoot('/auth/login', { animated: true });
   }
 
   uploadAvatar(img: string) {

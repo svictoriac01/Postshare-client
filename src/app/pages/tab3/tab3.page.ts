@@ -26,6 +26,7 @@ export class Tab3Page implements OnInit {
     this.slides.lockSwipes(true);
 
     this.usuarioService.newAvatar.subscribe(async token => {
+      this.usuario = null;
       this.usuario = await this.usuarioService.getDataUsuario(token);
       console.log(this.usuario);
     });

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes, CanActivate } from '@angular/router';
 import { UsuarioGuard } from './guards/usuario.guard';
 
+
 const routes: Routes = [
   {
     path: 'main',
@@ -9,13 +10,17 @@ const routes: Routes = [
     canLoad: [UsuarioGuard]
   },
   {
-    path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
+    path: 'auth',
+    children: [
+      { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule), },
+      { path: 'register', loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule) },
+      { path: '', pathMatch: 'full', redirectTo: 'auth/login' },
+    ]
   },
-  {
-    path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
-  },
+  // {
+  //   path: 'register',
+  //   loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
+  // },
   {
     path: '',
     pathMatch: 'full',
