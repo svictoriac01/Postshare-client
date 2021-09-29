@@ -1,19 +1,30 @@
-<ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar>
-    <ion-title>
-      PostShare
-    </ion-title>
-  </ion-toolbar>
+<ion-header class="ion-no-border">
+
+  <ion-segment (ionChange)="segmentChanged()" #segment>
+    <ion-segment-button value="social">
+      <ion-label class="ion-text-capitalize">Social</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="postme">
+      <ion-label class="ion-text-capitalize">Publicaciones</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="favs">
+      <ion-label>
+        <span class="ion-text-capitalize">Me&nbsp;</span>
+        <span class="ion-text-lowercase">gusta</span>
+      </ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <!-- Refresher (Actualizar posts) -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <!-- Lista posts -->
-  <app-posts [posts]='posts'></app-posts>
+  <app-posts [posts]='postsAux'></app-posts>
 
   <!-- Fav button -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="animate__animated animate__bounce">

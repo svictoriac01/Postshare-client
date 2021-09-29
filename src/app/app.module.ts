@@ -12,6 +12,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { File } from '@ionic-native/file/ngx';
     Camera,
     FileTransfer,
     File,
+    SocialSharing,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

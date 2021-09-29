@@ -151,7 +151,7 @@ export class UsuarioService {
   logout() {
     this.token = null;
     this.usuario = null;
-    this._storage.remove('token');
+    this._storage.clear();
     this.navCtrl.navigateRoot('/auth/login', { animated: true });
   }
 

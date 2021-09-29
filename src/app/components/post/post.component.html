@@ -38,14 +38,14 @@
   <!-- Botones -->
   <ion-item lines="none">
     <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon name="heart-outline" slot="icon-only"></ion-icon>
+      <ion-button (click)="like()" [color]="isLike ? 'danger': 'white'">
+        <ion-icon [name]="isLike ? 'heart': 'heart-outline'" slot="icon-only"></ion-icon>
       </ion-button>
       <ion-label *ngIf="post.favs > 0">{{post.favs}}</ion-label>
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button (click)="share()">
         <ion-icon name="share-social-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>

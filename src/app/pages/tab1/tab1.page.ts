@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+/* eslint-disable no-underscore-dangle */
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController, IonSegment } from '@ionic/angular';
 import { PostsService } from 'src/app/services/posts.service';
 import { Post } from '../../interfaces/posts.interface';
 import { SubirPostComponent } from '../../components/subir-post/subir-post.component';
+import { UsuarioService } from '../../services/usuario.service';
+import { Usuario } from '../../interfaces/usuario.interface';
+import { DataLocalService } from '../../services/data-local.service';
 
 @Component({
   selector: 'app-tab1',
@@ -10,16 +14,21 @@ import { SubirPostComponent } from '../../components/subir-post/subir-post.compo
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-
+  @ViewChild('segment', { static: true }) segment: IonSegment;
   posts: Post[] = [];
+  postsAux: Post[] = [];
+  usuario: Usuario = {};
   disabled = false;
 
-  constructor(private postsService: PostsService,
-    private modalCtrl: ModalController) { }
+  constructor(private postsService: PostsService, private dataLocalService: DataLocalService,
+    private modalCtrl: ModalController, private usuarioService: UsuarioService) { }
 
   // Obtener las publicaciones
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.segment.value = 'social';
+    this.usuario = await this.usuarioService.getUsuario();
     this.loadData();
+
     this.postsService.newPost.subscribe(post => {
       this.posts.unshift(post);
     });
@@ -34,17 +43,33 @@ export class Tab1Page implements OnInit {
 
   // Cargar nuevos elementos
   loadData(event?: any, refresher: boolean = false) {
-    // Valor refresher para volver a la primera pagina si es true
-    this.postsService.getPosts(refresher).subscribe(res => {
-      console.log(res);
-      this.posts.push(...res.posts); //Añade los posts como elementos individuales al array
-      if (event) {
-        event.target.complete();
+    return new Promise<void>(resolve => {
+      // Valor refresher para volver a la primera pagina si es true
+      this.postsService.getPosts(refresher).subscribe(res => {
+        console.log(res);
+        this.posts.push(...res.posts); //Añade los posts como elementos individuales al array
 
-        if (res.posts.length === 0) {
-          this.disabled = true;
+        switch (this.segment.value) {
+          case 'social':
+            this.postsAux = this.posts;
+            break;
+          case 'postme':
+            this.postsAux = this.posts.filter(post => post.usuario._id === this.usuario._id);
+            break;
+          case 'favs':
+            this.postsAux = this.dataLocalService.posts;
+            break;
         }
-      }
+
+        if (event) {
+          event.target.complete();
+
+          if (res.posts.length === 0) {
+            this.disabled = true;
+          }
+        }
+        resolve();
+      });
     });
   }
 
@@ -56,6 +81,11 @@ export class Tab1Page implements OnInit {
     return await modal.present();
   }
 
+  // Pestañas cambio lista post
+  async segmentChanged() {
+    this.postsAux = [];
+    await this.loadData();
+  }
 }
 
 
