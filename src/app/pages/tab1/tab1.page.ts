@@ -7,6 +7,7 @@ import { SubirPostComponent } from '../../components/subir-post/subir-post.compo
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { DataLocalService } from '../../services/data-local.service';
+import { SocialService } from '../../services/social.service';
 
 @Component({
   selector: 'app-tab1',
@@ -20,14 +21,14 @@ export class Tab1Page implements OnInit {
   usuario: Usuario = {};
   disabled = false;
 
-  constructor(private postsService: PostsService, private dataLocalService: DataLocalService,
+  constructor(private postsService: PostsService, private socialService: SocialService,
     private modalCtrl: ModalController, private usuarioService: UsuarioService) { }
 
   // Obtener las publicaciones
   async ngOnInit() {
     this.segment.value = 'social';
     this.usuario = await this.usuarioService.getUsuario();
-    this.loadData();
+    await this.loadData();
 
     this.postsService.newPost.subscribe(post => {
       this.posts.unshift(post);
@@ -45,8 +46,8 @@ export class Tab1Page implements OnInit {
   loadData(event?: any, refresher: boolean = false) {
     return new Promise<void>(resolve => {
       // Valor refresher para volver a la primera pagina si es true
-      this.postsService.getPosts(refresher).subscribe(res => {
-        console.log(res);
+      this.postsService.getPosts(refresher).subscribe(async res => {
+        //console.log(res);
         this.posts.push(...res.posts); //Añade los posts como elementos individuales al array
 
         switch (this.segment.value) {
@@ -57,7 +58,7 @@ export class Tab1Page implements OnInit {
             this.postsAux = this.posts.filter(post => post.usuario._id === this.usuario._id);
             break;
           case 'favs':
-            this.postsAux = this.dataLocalService.posts;
+            this.postsAux = this.socialService.posts;
             break;
         }
 
@@ -85,6 +86,7 @@ export class Tab1Page implements OnInit {
   async segmentChanged() {
     this.postsAux = [];
     await this.loadData();
+    //console.log(this.postsAux);
   }
 }
 

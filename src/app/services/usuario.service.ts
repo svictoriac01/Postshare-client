@@ -82,7 +82,7 @@ export class UsuarioService {
     if (!this.usuario._id) {
       await this.validToken();
     }
-    await this.validToken();
+    //await this.validToken();
     return { ...this.usuario };
   }
 

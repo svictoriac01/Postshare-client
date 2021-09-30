@@ -1,11 +1,14 @@
 /* eslint-disable no-underscore-dangle */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Post } from '../../interfaces/posts.interface';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { PostsService } from '../../services/posts.service';
 import { DataLocalService } from '../../services/data-local.service';
+import { SocialService } from '../../services/social.service';
+import { Social } from '../../interfaces/social.interface';
+import { UsuarioService } from '../../services/usuario.service';
 
 
 const URL = environment.url;
@@ -16,20 +19,21 @@ const URL = environment.url;
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit {
-
+  @Output() removePost = new EventEmitter();
   @Input() post: Post = {};
   slideOpts = {
     allowSlideNext: false,
     allowSlidePrev: false
   };
-
+  socialData: Social = {};
+  favoritos: Post [] = [];
   isLike = false;
 
   constructor(private socialSharing: SocialSharing, private postsService: PostsService,
-    private dataLocal: DataLocalService) { }
+    private socialService: SocialService) { }
 
-  ngOnInit() {
-    if (this.post.favs > 0) {
+  async ngOnInit() {
+    if (this.socialService.posts.some(post => post._id === this.post._id)) {
       this.isLike = true;
     }
   }
@@ -42,16 +46,16 @@ export class PostComponent implements OnInit {
 
   // Gestión de likes
   async like() {
+
     this.isLike = !this.isLike;
     if (this.isLike) {
       this.post.favs++;
-      this.dataLocal.guardarPost(this.post);
+      await this.socialService.addSocialData(this.post, 'favoritos');
     } else {
       this.post.favs--;
-      this.dataLocal.borrarPost(this.post);
+      await this.socialService.removeSocialData(this.post, 'favoritos');
+      this.removePost.emit(this.post);
     }
-
     await this.postsService.updatePosts(this.post);
   }
-
 }
