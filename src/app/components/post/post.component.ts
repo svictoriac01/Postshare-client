@@ -19,7 +19,7 @@ const URL = environment.url;
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit {
-  @Output() removePost = new EventEmitter();
+  @Output() removePost = new EventEmitter<Post>();
   @Input() post: Post = {};
   slideOpts = {
     allowSlideNext: false,

@@ -24,7 +24,7 @@
   </ion-refresher>
 
   <!-- Lista posts -->
-  <app-posts [posts]='postsAux'></app-posts>
+  <app-posts [posts]='postsAux' (deletePost)="dislikeEvent($event)"></app-posts>
 
   <!-- Fav button -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="animate__animated animate__bounce">

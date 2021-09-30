@@ -88,6 +88,14 @@ export class Tab1Page implements OnInit {
     await this.loadData();
     //console.log(this.postsAux);
   }
+
+  dislikeEvent(post: Post) {
+    if (this.segment.value === 'favs') {
+      //console.log(post);
+      this.postsAux = this.postsAux.filter(p => p._id !== post._id);
+    }
+  }
+
 }
 
 
