@@ -24,18 +24,12 @@ export class Tab3Page implements OnInit {
   async ngOnInit() {
     this.usuario = await this.usuarioService.getUsuario();
     this.slides.lockSwipes(true);
-
-    this.usuarioService.newAvatar.subscribe(async token => {
-      this.usuario = null;
-      this.usuario = await this.usuarioService.getDataUsuario(token);
-      console.log(this.usuario);
-    });
   }
 
 
-  async logout() {
+  logout() {
     this.postsService.paginaPosts = 0;
-    await this.usuarioService.logout();
+    this.usuarioService.logout();
   }
 
   async actualizar() {
@@ -44,7 +38,6 @@ export class Tab3Page implements OnInit {
       animated: true,
       componentProps: { usuario: this.usuario }
     });
-    console.log(this.usuario);
     await modal.present();
   }
 }

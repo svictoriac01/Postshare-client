@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Component, OnInit, ViewChild, EventEmitter, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -18,7 +19,9 @@ declare let window: any;
 export class ActualizarUsuarioComponent implements OnInit {
 
   @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
+  @ViewChild('fUpdate', { static: true }) fUpdate: NgForm;
   @Input() usuario: Usuario = {};
+  avatar: string;
   imgTemp: string;
 
   constructor(private usuarioService: UsuarioService, private camera: Camera,
@@ -29,20 +32,24 @@ export class ActualizarUsuarioComponent implements OnInit {
     //this.usuario = await this.usuarioService.getUsuario();
     //console.log(this.usuario);
     //this.usuario = await this.usuarioService.getUsuario();
-    console.log(this.usuario);
+    //console.log(this.usuario);
     this.slides.lockSwipes(true);
-    this.imgTemp = null;
+    //this.imgTemp = null;
+    this.usuarioService.newAvatar.subscribe(file => {
+      this.avatar = file['name'];
+    });
   }
 
 
   // Actualizar usuario
-  async actualizar(fUpdate: NgForm) {
-    if (fUpdate.invalid) { return; }
+  async actualizar() {
+    if (this.fUpdate.invalid) { return; }
 
     const actualizado = await this.usuarioService.update(this.usuario);
     if (actualizado) {
       // toast usuario actualizado
-      this.modalCtrl.dismiss(this.usuario);
+      this.usuario.avatar = this.avatar || this.usuario.avatar;
+      this.modalCtrl.dismiss();
       await this.uiService.presentToast('Usuario actualizado');
     } else {
       // error

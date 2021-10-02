@@ -19,7 +19,7 @@ const URL = environment.url;
 export class UsuarioService {
 
   token = null;
-  newAvatar = new EventEmitter<string>();
+  newAvatar = new EventEmitter();
   private usuario: Usuario = {};
   private _storage: Storage | null = null;
 
@@ -135,7 +135,6 @@ export class UsuarioService {
         if (resp.ok) {
           await this.saveToken(resp.token);
           //console.log(usuario);
-          this.newAvatar.emit(resp.token);
           resolve(true);
 
         } else {
@@ -164,23 +163,9 @@ export class UsuarioService {
     };
     const fileTransfer: FileTransferObject = this.fileTransfer.create();
     fileTransfer.upload(img, `${URL}/user/upload`, options).then(data => {
-      //console.log(data);
+      this.newAvatar.emit(JSON.parse(data.response));
     }).catch(err => {
       console.log('Error en carga:', err);
-    });
-  }
-
-  // Obtener dato de usuario pasando token
-  getDataUsuario(token: string) {
-    return new Promise<Usuario>(resolve => {
-      const headers = new HttpHeaders({ 'x-token': token });
-
-      this.http.get<UsuarioResponse>(`${URL}/user/`, { headers }).subscribe(resp => {
-        if (resp.ok) {
-          this.usuario = resp.usuario;
-          resolve(resp.usuario);
-        }
-      });
     });
   }
 
