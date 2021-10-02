@@ -33,9 +33,13 @@ export class PostComponent implements OnInit {
     private socialService: SocialService) { }
 
   async ngOnInit() {
-    if (this.socialService.posts.some(post => post._id === this.post._id)) {
-      this.isLike = true;
-    }
+    this.socialService.getSocialData().subscribe(postsFav => {
+      //console.log(postsFav);
+      const existe = postsFav.social.favoritos.some(post => post._id === this.post._id);
+      if (existe) {
+        this.isLike = true;
+      }
+    });
   }
 
   // Compartir publicación

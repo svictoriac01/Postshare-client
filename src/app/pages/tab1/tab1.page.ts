@@ -28,7 +28,7 @@ export class Tab1Page implements OnInit {
   async ngOnInit() {
     this.segment.value = 'social';
     this.usuario = await this.usuarioService.getUsuario();
-    await this.loadData();
+    this.loadData();
 
     this.postsService.newPost.subscribe(post => {
       this.posts.unshift(post);
@@ -44,33 +44,32 @@ export class Tab1Page implements OnInit {
 
   // Cargar nuevos elementos
   loadData(event?: any, refresher: boolean = false) {
-    return new Promise<void>(resolve => {
-      // Valor refresher para volver a la primera pagina si es true
-      this.postsService.getPosts(refresher).subscribe(async res => {
-        //console.log(res);
-        this.posts.push(...res.posts); //Añade los posts como elementos individuales al array
+    // Valor refresher para volver a la primera pagina si es true
+    this.postsService.getPosts(refresher).subscribe(async res => {
+      //console.log(res);
+      this.posts.push(...res.posts); //Añade los posts como elementos individuales al array
 
-        switch (this.segment.value) {
-          case 'social':
-            this.postsAux = this.posts;
-            break;
-          case 'postme':
-            this.postsAux = this.posts.filter(post => post.usuario._id === this.usuario._id);
-            break;
-          case 'favs':
-            this.postsAux = this.socialService.posts;
-            break;
+      switch (this.segment.value) {
+        case 'social':
+          this.postsAux = this.posts;
+          break;
+        case 'postme':
+          this.postsAux = this.posts.filter(post => post.usuario._id === this.usuario._id);
+          break;
+        case 'favs':
+          this.socialService.getSocialData().subscribe(socialData => {
+            this.postsAux = socialData.social.favoritos;
+          });
+          break;
+      }
+
+      if (event) {
+        event.target.complete();
+
+        if (res.posts.length === 0) {
+          this.disabled = true;
         }
-
-        if (event) {
-          event.target.complete();
-
-          if (res.posts.length === 0) {
-            this.disabled = true;
-          }
-        }
-        resolve();
-      });
+      }
     });
   }
 

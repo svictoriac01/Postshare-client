@@ -17,18 +17,11 @@ const URL = environment.url;
 })
 export class SocialService {
 
-  posts: Post[] = [];
-  follows: Usuario[] = [];
+  private posts: Post[] = [];
+  private follows: Usuario[] = [];
 
-  constructor(private http: HttpClient, private usuarioService: UsuarioService) {
-    this.init();
-  }
+  constructor(private http: HttpClient, private usuarioService: UsuarioService) { }
 
-
-  async init() {
-    // If using, define drivers here: await this.storage.defineDriver(/*...*/);
-    await this.getSocialData();
-  }
 
 
   createSocialData(social: Social) {
@@ -46,8 +39,12 @@ export class SocialService {
     });
   }
 
-  addSocialData(data: any, type: string) {
-    let existe: any =  [];
+  async addSocialData(data: any, type: string) {
+    let existe: any = [];
+
+    const dataSocial = await this.getSocialData().toPromise();
+    this.posts = dataSocial.social.favoritos;
+    this.follows = dataSocial.social.seguidos;
 
     switch (type) {
       case 'favoritos':
@@ -75,7 +72,12 @@ export class SocialService {
     });
   }
 
-  removeSocialData(data: any, type: string) {
+  async removeSocialData(data: any, type: string) {
+
+    const dataSocial = await this.getSocialData().toPromise();
+    this.posts = dataSocial.social.favoritos;
+    this.follows = dataSocial.social.seguidos;
+
     switch (type) {
       case 'favoritos':
         this.posts = this.posts.filter(post => post._id !== data._id);
@@ -103,12 +105,6 @@ export class SocialService {
 
   getSocialData() {
     const headers = new HttpHeaders({ 'x-token': this.usuarioService.token });
-    return new Promise<void>(resolve => {
-      this.http.get<SocialResponse>(`${URL}/social`, { headers }).subscribe(resp => {
-        this.posts = resp.social.favoritos || [];
-        this.follows = resp.social.seguidos || [];
-        resolve();
-      });
-    });
+    return this.http.get<SocialResponse>(`${URL}/social`, { headers });
   }
 }
