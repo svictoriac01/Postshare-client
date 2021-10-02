@@ -47,9 +47,4 @@ export class RegisterPage implements OnInit {
     }
 
   }
-
-  // Menu para subir un avatar
-  async subirImagen() {
-    //await this.uiService.presentActionSheet();
-  }
 }

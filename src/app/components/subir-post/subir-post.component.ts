@@ -4,6 +4,8 @@ import { PostsService } from '../../services/posts.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Usuario } from '../../interfaces/usuario.interface';
 
 declare let window: any;
 @Component({
@@ -15,6 +17,7 @@ export class SubirPostComponent implements OnInit {
 
   tempImages: string[] = [];
   loadLocation = false;
+  usuario: Usuario = {};
 
   post = {
     message: '',
@@ -23,11 +26,13 @@ export class SubirPostComponent implements OnInit {
   };
 
   constructor(private modalCtrl: ModalController,
-    private postsService: PostsService,
+    private postsService: PostsService, private usuarioService: UsuarioService,
     private geolocation: Geolocation,
     private camera: Camera) { }
 
-  ngOnInit() { }
+  async ngOnInit() {
+    this.usuario = await this.usuarioService.getUsuario();
+  }
 
 
   async crearPost() {

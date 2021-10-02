@@ -1,21 +1,23 @@
 .mainSlide, .mainSlide ion-slide {
     width: 100% !important;
-    height: 100% !important;
+    height: 90% !important;
 }
 
 form {
     width: 90% !important;
 }
 
-img {
-    width: 140px;
+ion-avatar {
+    min-width: 120px;
+    min-height: 120px;
+    margin: auto;
 }
 
-.button-avatar {
-    border-radius: 100%;
-    width: 140px;
-    height: 140px;
+img {
+    width: 100%!important;
+    height: 100%!important;
 }
+
 
 ion-list ion-item {
     margin-bottom: 8px;

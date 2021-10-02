@@ -13,35 +13,39 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding-horizontal ion-padding-vertical">
 
   <ion-list>
 
-    <ion-item>
-      <ion-label position="floating">Mensaje</ion-label>
-      <ion-textarea [(ngModel)]="post.message"></ion-textarea>
+    <ion-item lines="none">
+      <ion-avatar>
+        <img [src]="usuario.avatar |avatar:usuario._id" />
+      </ion-avatar>
+      <ion-label class="ion-padding">Mensaje</ion-label>
     </ion-item>
 
-    <ion-list>
-      <ion-item>
-        <ion-label>Ubicación actual</ion-label>
-        <ion-spinner name="lines-small" *ngIf="loadLocation"></ion-spinner>
-        <ion-toggle slot="end" [(ngModel)]="post.position" (ionChange)="getLocation()"></ion-toggle>
-      </ion-item>
-    </ion-list>
+    <ion-item>
+      <ion-textarea [(ngModel)]="post.message" placeholder="¿Que quieres decir?" maxlength="255"></ion-textarea>
+    </ion-item>
+
+    <ion-item lines="none" class="ion-margin-top">
+      <ion-label>Ubicación actual</ion-label>
+      <ion-spinner name="lines-small" *ngIf="loadLocation"></ion-spinner>
+      <ion-toggle slot="end" [(ngModel)]="post.position" (ionChange)="getLocation()"></ion-toggle>
+    </ion-item>
 
 
   </ion-list>
 
-  <ion-row>
+  <ion-row class="ion-margin-top">
     <ion-col size="6">
-      <ion-button expand="full" shape="round" (click)="openCamera()">
+      <ion-button expand="full" shape="round" class="boton" (click)="openCamera()">
         <ion-icon slot="start" name="camera"></ion-icon>
         Cámara
       </ion-button>
     </ion-col>
     <ion-col size="6">
-      <ion-button expand="full" shape="round" (click)="openGallery()">
+      <ion-button expand="full" shape="round" class="boton" (click)="openGallery()">
         <ion-icon slot="start" name="images"></ion-icon>
         Galería
       </ion-button>
