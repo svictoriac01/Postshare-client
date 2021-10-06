@@ -6,7 +6,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment';
-import { LoginResponse, UsuarioResponse } from '../interfaces/usuario.interface';
+import { LoginResponse, UsuarioResponse, UsuariosResponse } from '../interfaces/usuario.interface';
 import { Usuario } from '../interfaces/usuario.interface';
 import { NavController } from '@ionic/angular';
 import { FileTransferObject, FileUploadOptions, FileTransfer } from '@ionic-native/file-transfer/ngx';
@@ -176,4 +176,7 @@ export class UsuarioService {
     });
   }
 
+  getUsuarios() {
+    return this.http.get<UsuariosResponse>(`${URL}/user/all`);
+  }
 }

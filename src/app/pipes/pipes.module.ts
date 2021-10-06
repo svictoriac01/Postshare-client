@@ -4,6 +4,7 @@ import { DomSanitizerPipe } from './dom-sanitizer.pipe';
 import { ImageSanitizerPipe } from './image-sanitizer.pipe';
 import { ImagenPipe } from './imagen.pipe';
 import { AvatarPipe } from './avatar.pipe';
+import { FiltroPipe } from './filtro.pipe';
 
 
 
@@ -12,7 +13,8 @@ import { AvatarPipe } from './avatar.pipe';
     DomSanitizerPipe,
     ImageSanitizerPipe,
     ImagenPipe,
-    AvatarPipe
+    AvatarPipe,
+    FiltroPipe
   ],
   imports: [
     CommonModule
@@ -21,7 +23,8 @@ import { AvatarPipe } from './avatar.pipe';
     DomSanitizerPipe,
     ImageSanitizerPipe,
     ImagenPipe,
-    AvatarPipe
+    AvatarPipe,
+    FiltroPipe
   ]
 })
 export class PipesModule { }

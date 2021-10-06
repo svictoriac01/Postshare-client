@@ -16,3 +16,8 @@ export interface Usuario {
     email?: string;
     password?: string;
 }
+
+export interface UsuariosResponse {
+    ok?: boolean;
+    usuarios?: Usuario[];
+}
