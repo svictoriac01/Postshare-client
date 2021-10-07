@@ -6,6 +6,7 @@ import { PostsService } from '../../services/posts.service';
 import { ActualizarUsuarioComponent } from '../../components/actualizar-usuario/actualizar-usuario.component';
 import { IonSlides, ModalController } from '@ionic/angular';
 import { SocialService } from '../../services/social.service';
+import { Post } from '../../interfaces/posts.interface';
 
 
 declare let window: any;
@@ -19,8 +20,11 @@ export class Tab3Page implements OnInit {
   @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
   usuario: Usuario = {};
   seguidos: Usuario[] = [];
+  posts: Post [] = [];
+  favoritos: Post [] = [];
   nSeguidos = 0;
   nPublicaciones = 0;
+  nFavoritos = 0;
 
   constructor(private usuarioService: UsuarioService, private socialService: SocialService,
     private postsService: PostsService, private modalCtrl: ModalController) { }
@@ -29,15 +33,36 @@ export class Tab3Page implements OnInit {
   async ngOnInit() {
     this.usuario = await this.usuarioService.getUsuario();
 
-    this.postsService.getPosts().subscribe(data => {
-        this.nPublicaciones = data.posts.filter(user => user._id === this.usuario._id).length;
-    });
-
     this.socialService.getSocialData().subscribe(data => {
       this.seguidos = data.social.seguidos;
       this.nSeguidos = this.seguidos.length;
+      this.favoritos = data.social.favoritos;
+      this.nFavoritos = this.favoritos.length;
     });
 
+    this.postsService.getAllPosts().subscribe(data => {
+      this.posts = data.posts.filter(post => post.usuario._id === this.usuario._id);
+      this.nPublicaciones = this.posts.length;
+    });
+
+
+    this.socialService.follow.subscribe(isFollow => {
+      if (isFollow) {
+        this.nSeguidos++;
+      } else {
+        this.nSeguidos--;
+      }
+    });
+
+    this.socialService.like.subscribe(isLike => {
+      if (isLike) {
+        this.nFavoritos++;
+      } else {
+        this.nFavoritos--;
+      }
+    });
+
+    this.postsService.newPost.subscribe(() => this.nPublicaciones++);
 
     this.slides.lockSwipes(true);
   }

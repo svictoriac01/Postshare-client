@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SocialResponse, Social } from '../interfaces/social.interface';
 import { UsuarioService } from './usuario.service';
@@ -17,6 +17,8 @@ const URL = environment.url;
 })
 export class SocialService {
 
+  follow = new EventEmitter<boolean>();
+  like = new EventEmitter<boolean>();
   private posts: Post[] = [];
   private follows: Usuario[] = [];
 
@@ -50,10 +52,12 @@ export class SocialService {
       case 'favoritos':
         existe = this.posts.find(post => post._id === data._id);
         if (!existe) { this.posts.unshift(data); }
+        this.like.emit(true);
         break;
       case 'seguidores':
         existe = this.follows.find(user => user._id === data._id);
         if (!existe) { this.follows.unshift(data); }
+        this.follow.emit(true);
         break;
     }
 
@@ -81,9 +85,11 @@ export class SocialService {
     switch (type) {
       case 'favoritos':
         this.posts = this.posts.filter(post => post._id !== data._id);
+        this.like.emit(false);
         break;
       case 'seguidores':
         this.follows = this.follows.filter(user => user._id !== data._id);
+        this.follow.emit(false);
         break;
     }
 
@@ -106,5 +112,10 @@ export class SocialService {
   getSocialData() {
     const headers = new HttpHeaders({ 'x-token': this.usuarioService.token });
     return this.http.get<SocialResponse>(`${URL}/social`, { headers });
+  }
+
+  getSocialDataUser(userId: string) {
+    const headers = new HttpHeaders({ 'x-token': this.usuarioService.token });
+    return this.http.get<SocialResponse>(`${URL}/social/${userId}`, { headers });
   }
 }

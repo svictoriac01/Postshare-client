@@ -84,4 +84,9 @@ export class PostsService {
       console.log(resp['ok']);
     });
   }
+
+  getAllPosts() {
+    return this.http.get<RespuestaPosts>(`${URL}/posts/all`);
+  }
+
 }
