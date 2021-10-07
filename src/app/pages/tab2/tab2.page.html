@@ -32,7 +32,7 @@
 
   <ion-list>
 
-    <ion-item button *ngFor="let usuario of usuarios | filtro: textoBuscar" class="animate__animated animate__fadeIn animate__faster">
+    <ion-item button *ngFor="let usuario of usuarios | filtro: textoBuscar" class="animate__animated animate__fadeIn animate__faster" (click)="verUsuario(usuario)">
 
       <ion-avatar slot="start">
         <img [src]="usuario.avatar | avatar:usuario._id" />

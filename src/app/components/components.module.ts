@@ -8,6 +8,7 @@ import { SubirPostComponent } from './subir-post/subir-post.component';
 import { FormsModule } from '@angular/forms';
 import { MapaComponent } from './mapa/mapa.component';
 import { ActualizarUsuarioComponent } from './actualizar-usuario/actualizar-usuario.component';
+import { DetailsUserComponent } from './details-user/details-user.component';
 
 
 
@@ -17,7 +18,8 @@ import { ActualizarUsuarioComponent } from './actualizar-usuario/actualizar-usua
     PostsComponent,
     SubirPostComponent,
     MapaComponent,
-    ActualizarUsuarioComponent
+    ActualizarUsuarioComponent,
+    DetailsUserComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { ActualizarUsuarioComponent } from './actualizar-usuario/actualizar-usua
   exports: [
     PostsComponent,
     SubirPostComponent,
-    ActualizarUsuarioComponent
+    ActualizarUsuarioComponent,
+    DetailsUserComponent
   ]
 })
 export class ComponentsModule { }

@@ -7,6 +7,7 @@ import { Tab2Page } from './tab2.page';
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import { PipesModule } from '../../pipes/pipes.module';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { PipesModule } from '../../pipes/pipes.module';
     CommonModule,
     FormsModule,
     Tab2PageRoutingModule,
-    PipesModule
+    PipesModule,
+    ComponentsModule
   ],
   declarations: [Tab2Page]
 })

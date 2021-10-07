@@ -1,8 +1,8 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button (click)="logout()">
-        <ion-icon slot="icon-only" name="exit"></ion-icon>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()" expand="block" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>Usuario</ion-title>
@@ -31,20 +31,20 @@
               <ion-list>
                 <ion-list-header>
                   <ion-label>
-                    <span style="font-weight: bold;">{{  nSeguidos }}</span>
-                    <span>&nbsp;Siguiendo</span>
+                    <span style="font-weight: bold;">{{ 50 }}</span>
+                    <span>&nbsp;Seguidores</span>
                   </ion-label>
                   <ion-label>
-                    <span style="font-weight: bold;">{{ nPublicaciones }}</span>
+                    <span style="font-weight: bold;">3</span>
                     <span>&nbsp;Publicaciones</span>
                   </ion-label>
                 </ion-list-header>
                 
-                <ion-item class="ion-no-padding">
+                <ion-item class="ion-no-padding" lines="none">
                   <ion-label position="floating">Nombre</ion-label>
                   <ion-input name="nombre" type="text" [(ngModel)]="usuario.name" readonly></ion-input>
                 </ion-item>
-                <ion-item class="ion-no-padding">
+                <ion-item class="ion-no-padding" lines="none">
                   <ion-label position="floating">Usuario</ion-label>
                   <ion-input name="username" type="email" [(ngModel)]="usuario.username" readonly></ion-input>
                 </ion-item>
@@ -54,9 +54,8 @@
 
           <ion-row class="ion-margin animate__animated animate__fadeIn">
             <ion-col>
-              <ion-button color="primary" expand="block" shape="round" class="boton ion-no-padding" (click)="actualizar()">
-                <span class="ion-text-capitalize">Editar</span>
-                <span class="ion-text-lowercase">&nbsp;perfil</span>
+              <ion-button color="primary" expand="block" [fill]="isFollow ? 'solid': 'outline'" shape="round" class="boton ion-no-padding" (click)="follow()">
+                <span class="ion-text-capitalize">{{ state }}</span>
               </ion-button>
             </ion-col>
           </ion-row>
@@ -67,3 +66,4 @@
   </ion-slides>
 
 </ion-content>
+

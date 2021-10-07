@@ -4,6 +4,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { UsuarioService } from '../../services/usuario.service';
+import { ModalController } from '@ionic/angular';
+import { DetailsUserComponent } from '../../components/details-user/details-user.component';
 
 @Component({
   selector: 'app-tab2',
@@ -18,7 +20,7 @@ export class Tab2Page implements OnInit {
   usuarios: Usuario[] = [];
   buscando = false;
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService, private modalCtrl: ModalController) { }
 
   async ngOnInit() {
     this.usuario = await this.usuarioService.getUsuario();
@@ -48,6 +50,16 @@ export class Tab2Page implements OnInit {
     this.usuarioService.getUsuarios().subscribe(res => {
       this.usuarios = res.usuarios.filter(user => user._id !== this.usuario._id);
     });
+  }
+
+  async verUsuario(usuario: Usuario) {
+    const modal = await this.modalCtrl.create({
+      component: DetailsUserComponent,
+      componentProps: { usuario },
+      animated: true
+    });
+
+    return await modal.present();
   }
 
 }
