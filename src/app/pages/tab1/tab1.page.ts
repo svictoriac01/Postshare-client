@@ -93,6 +93,8 @@ export class Tab1Page implements OnInit {
       //console.log(post);
       this.postsAux = this.postsAux.filter(p => p._id !== post._id);
     }
+    const index = this.posts.findIndex(p => p._id === post._id);
+    this.posts[index] = post;
   }
 
 }
