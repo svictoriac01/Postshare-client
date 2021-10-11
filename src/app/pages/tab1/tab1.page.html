@@ -1,4 +1,7 @@
 <ion-header class="ion-no-border">
+  <ion-toolbar #header>
+    <ion-title>PostShare</ion-title>
+  </ion-toolbar>
 
   <ion-segment (ionChange)="segmentChanged()" mode="md" #segment>
     <ion-segment-button value="social">
@@ -14,10 +17,11 @@
       </ion-label>
     </ion-segment-button>
   </ion-segment>
-
 </ion-header>
 
-<ion-content>
+
+
+<ion-content scrollEvents="true" appScrollHide [header]="header">
   <!-- Refresher (Actualizar posts) -->
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
