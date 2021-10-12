@@ -24,7 +24,7 @@ export class NoticiaComponent implements OnInit {
     const browser = this.iab.create(this.noticia.url, '_system');
   }
 
-  compartirNoticia() {
+  share() {
     if (this.platform.is('cordova')) {
       this.socialSharing.share(this.noticia.title, this.noticia.source.name, '', this.noticia.url);
     }

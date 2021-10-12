@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border" #header>
 
   <ion-toolbar *ngIf="!search">
     <ion-title>
@@ -18,12 +18,14 @@
       debounce="700" [value]="textoBuscar" (ionChange)="onSearch($event)"></ion-searchbar>
   </ion-toolbar>
 
+</ion-header>
+
+<ion-header class="ion-no-border" *ngIf="!search">
   <ion-segment scrollable mode="md" (ionChange)="segmentChanged($event)" #segment *ngIf="!search" [value]="value">
     <ion-segment-button mode="md" *ngFor="let categoria of categorias" [value]="categoria">
       <ion-label class="ion-text-capitalize">{{ categoria }}</ion-label>
     </ion-segment-button>  
   </ion-segment>
-
 </ion-header>
 
 
@@ -59,7 +61,7 @@
 </ion-content>
 
 
-<ion-content *ngIf="!search">
+<ion-content *ngIf="!search" scrollEvents="true" appScrollHide [header]="header">
 
   <app-noticias [noticias]="noticias"></app-noticias>
 
