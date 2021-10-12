@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { MapaComponent } from './mapa/mapa.component';
 import { ActualizarUsuarioComponent } from './actualizar-usuario/actualizar-usuario.component';
 import { DetailsUserComponent } from './details-user/details-user.component';
+import { NoticiaComponent } from './noticia/noticia.component';
+import { NoticiasComponent } from './noticias/noticias.component';
 
 
 
@@ -19,7 +21,9 @@ import { DetailsUserComponent } from './details-user/details-user.component';
     SubirPostComponent,
     MapaComponent,
     ActualizarUsuarioComponent,
-    DetailsUserComponent
+    DetailsUserComponent,
+    NoticiaComponent,
+    NoticiasComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +35,8 @@ import { DetailsUserComponent } from './details-user/details-user.component';
     PostsComponent,
     SubirPostComponent,
     ActualizarUsuarioComponent,
-    DetailsUserComponent
+    DetailsUserComponent,
+    NoticiasComponent
   ]
 })
 export class ComponentsModule { }

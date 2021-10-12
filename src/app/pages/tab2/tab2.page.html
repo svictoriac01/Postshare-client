@@ -17,10 +17,17 @@
     <ion-searchbar placeholder="Buscar..." showCancelButton="always" (ionCancel)="cancelar()" animated
       debounce="700" [value]="textoBuscar" (ionChange)="onSearch($event)"></ion-searchbar>
   </ion-toolbar>
+
+  <ion-segment scrollable mode="md" (ionChange)="segmentChanged($event)" #segment *ngIf="!search" [value]="value">
+    <ion-segment-button mode="md" *ngFor="let categoria of categorias" [value]="categoria">
+      <ion-label class="ion-text-capitalize">{{ categoria }}</ion-label>
+    </ion-segment-button>  
+  </ion-segment>
+
 </ion-header>
 
 
-<ion-content>
+<ion-content *ngIf="search">
 
   <ion-grid fixed *ngIf="buscando">
     <ion-row>
@@ -48,5 +55,17 @@
       </ion-button> -->
     </ion-item>
   </ion-list>
+
+</ion-content>
+
+
+<ion-content *ngIf="!search">
+
+  <app-noticias [noticias]="noticias"></app-noticias>
+
+  <ion-infinite-scroll threshold="150px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Cargando noticias...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
