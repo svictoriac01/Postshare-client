@@ -25,7 +25,7 @@ export class MapaComponent implements OnInit {
     const lat = Number(latLng[0]);
     const lng = Number(latLng[1]);
 
-    mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZpY3RvcmlhYzAxIiwiYSI6ImNrczdiY2VweTA1OHEzMGx1YmdjaG9ybWwifQ.nSf4bZrRE892P6QQ5Zb60Q';
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZpY3RvcmlhYzAxIiwiYSI6ImNrdXd1dzM1cjBvMW4yeHJmNnRzeGwxYmgifQ.XuuGdxE2EFaOmXvD5Ktxdg';
     const map = new mapboxgl.Map({
       container: this.mapa.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',

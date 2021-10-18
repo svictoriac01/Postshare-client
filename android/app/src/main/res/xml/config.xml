@@ -23,10 +23,6 @@
     <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser"/>
   </feature>
 
-  <feature name="ThemeDetection">
-    <param name="android-package" value="de.mariusbackes.cordova.plugin.ThemeDetection"/>
-  </feature>
-
   <feature name="SocialSharing">
     <param name="android-package" value="nl.xservices.plugins.SocialSharing"/>
   </feature>

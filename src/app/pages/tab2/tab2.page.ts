@@ -25,8 +25,10 @@ export class Tab2Page implements OnInit {
   usuarios: Usuario[] = [];
   buscando = false;
 
-  categorias: string [] = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'];
-  noticias: Article [] = [];
+  segments: string[] = ['negocio', 'entretenimiento', 'general', 'salud', 'ciencia', 'deportes', 'tecnología'];
+  categorias: string[] = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'];
+
+  noticias: Article[] = [];
   value: string;
 
   constructor(private usuarioService: UsuarioService, private modalCtrl: ModalController,
@@ -34,9 +36,13 @@ export class Tab2Page implements OnInit {
 
   async ngOnInit() {
     this.usuario = await this.usuarioService.getUsuario();
-
     this.segment.value = this.categorias[0];
-    this.cargarNoticias(this.categorias[0]);
+
+    this.noticiasService.categoriaPage = 0;
+    this.noticiasService.getTopHeadLinesCategoria(this.categorias[0]).subscribe(res => {
+      this.noticias.push(...res.articles);
+    });
+    //this.cargarNoticias(this.categorias[0]);
     //this.loadUsers();
   }
 

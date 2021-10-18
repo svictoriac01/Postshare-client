@@ -22,7 +22,7 @@
 
 <ion-header class="ion-no-border" *ngIf="!search">
   <ion-segment scrollable mode="md" (ionChange)="segmentChanged($event)" #segment *ngIf="!search" [value]="value">
-    <ion-segment-button mode="md" *ngFor="let categoria of categorias" [value]="categoria">
+    <ion-segment-button mode="md" *ngFor="let categoria of segments; let i = index" [value]="categorias[i]">
       <ion-label class="ion-text-capitalize">{{ categoria }}</ion-label>
     </ion-segment-button>  
   </ion-segment>

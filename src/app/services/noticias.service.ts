@@ -6,13 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ResponseTopHeadlines } from '../interfaces/noticias.interface';
 
 
-
-const apiKey = environment.apiKey;
-const apiUrl = environment.apiUrl;
-const headers = new HttpHeaders({
-  'X-Api-key': apiKey
-});
-
+const URL = environment.url;
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +26,8 @@ export class NoticiasService {
       this.categoriaPage = 1;
       this.categoriaActual = categoria;
     }
-    return this.http.get<ResponseTopHeadlines>(`${apiUrl}/top-headlines?country=us&category=${categoria}&page=${this.categoriaPage}`, { headers });
+
+    return this.http.get<ResponseTopHeadlines>(`${URL}/noticias?category=${categoria}&country=co&page=${this.categoriaPage}`);
   }
 
 }
