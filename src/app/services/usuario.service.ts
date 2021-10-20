@@ -20,6 +20,7 @@ export class UsuarioService {
 
   token = null;
   newAvatar = new EventEmitter();
+  updateUser = new EventEmitter();
   private usuario: Usuario = {};
   private _storage: Storage | null = null;
 
@@ -135,6 +136,7 @@ export class UsuarioService {
         if (resp.ok) {
           await this.saveToken(resp.token);
           //console.log(usuario);
+          this.updateUser.emit(true);
           resolve(true);
 
         } else {

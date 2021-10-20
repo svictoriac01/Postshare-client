@@ -11,6 +11,7 @@ import { ActualizarUsuarioComponent } from './actualizar-usuario/actualizar-usua
 import { DetailsUserComponent } from './details-user/details-user.component';
 import { NoticiaComponent } from './noticia/noticia.component';
 import { NoticiasComponent } from './noticias/noticias.component';
+import { ListSeguidosComponent } from './list-seguidos/list-seguidos.component';
 
 
 
@@ -23,7 +24,8 @@ import { NoticiasComponent } from './noticias/noticias.component';
     ActualizarUsuarioComponent,
     DetailsUserComponent,
     NoticiaComponent,
-    NoticiasComponent
+    NoticiasComponent,
+    ListSeguidosComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { NoticiasComponent } from './noticias/noticias.component';
     SubirPostComponent,
     ActualizarUsuarioComponent,
     DetailsUserComponent,
-    NoticiasComponent
+    NoticiasComponent,
+    ListSeguidosComponent
   ]
 })
 export class ComponentsModule { }

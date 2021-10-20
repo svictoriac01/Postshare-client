@@ -8,6 +8,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { DataLocalService } from '../../services/data-local.service';
 import { SocialService } from '../../services/social.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -22,10 +23,18 @@ export class Tab1Page implements OnInit {
   disabled = false;
 
   constructor(private postsService: PostsService, private socialService: SocialService,
-    private modalCtrl: ModalController, private usuarioService: UsuarioService) { }
+    private modalCtrl: ModalController, private usuarioService: UsuarioService, private route: ActivatedRoute) { }
 
   // Obtener las publicaciones
   async ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      if (params) {
+        this.segment.value = params.value;
+        this.loadData();
+      }
+    });
+
     this.segment.value = 'social';
     this.usuario = await this.usuarioService.getUsuario();
     this.loadData();

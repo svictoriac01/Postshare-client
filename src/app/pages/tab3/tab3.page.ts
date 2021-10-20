@@ -1,12 +1,14 @@
 /* eslint-disable no-underscore-dangle */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { UsuarioService } from '../../services/usuario.service';
 import { PostsService } from '../../services/posts.service';
 import { ActualizarUsuarioComponent } from '../../components/actualizar-usuario/actualizar-usuario.component';
-import { IonSlides, ModalController } from '@ionic/angular';
+import { IonSlides, ModalController, NavController } from '@ionic/angular';
 import { SocialService } from '../../services/social.service';
 import { Post } from '../../interfaces/posts.interface';
+import { NavigationExtras } from '@angular/router';
+import { ListSeguidosComponent } from '../../components/list-seguidos/list-seguidos.component';
 
 
 declare let window: any;
@@ -20,14 +22,15 @@ export class Tab3Page implements OnInit {
   @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
   usuario: Usuario = {};
   seguidos: Usuario[] = [];
-  posts: Post [] = [];
-  favoritos: Post [] = [];
+  posts: Post[] = [];
+  favoritos: Post[] = [];
   nSeguidos = 0;
   nPublicaciones = 0;
   nFavoritos = 0;
+  viewPosts = new EventEmitter<string>();
 
   constructor(private usuarioService: UsuarioService, private socialService: SocialService,
-    private postsService: PostsService, private modalCtrl: ModalController) { }
+    private postsService: PostsService, private modalCtrl: ModalController, private navCtrl: NavController) { }
 
 
   async ngOnInit() {
@@ -64,6 +67,8 @@ export class Tab3Page implements OnInit {
 
     this.postsService.newPost.subscribe(() => this.nPublicaciones++);
 
+    this.usuarioService.updateUser.subscribe(async () => this.usuario = await this.usuarioService.getUsuario());
+
     this.slides.lockSwipes(true);
   }
 
@@ -81,4 +86,25 @@ export class Tab3Page implements OnInit {
     });
     await modal.present();
   }
+
+  async openFollowers() {
+    const modal = await this.modalCtrl.create({
+      component: ListSeguidosComponent,
+      animated: true,
+      componentProps: { usuario: this.usuario }
+    });
+
+    return await modal.present();
+  }
+
+  openPosts() {
+    const data: NavigationExtras = { queryParams: { value: 'postme' } };
+    this.navCtrl.navigateForward(['/main/tabs/tab1'], data);
+  }
+
+  openLikes() {
+    const data: NavigationExtras = { queryParams: { value: 'favs' }   };
+    this.navCtrl.navigateForward(['/main/tabs/tab1'], data);
+  }
+
 }

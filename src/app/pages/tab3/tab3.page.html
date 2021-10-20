@@ -20,9 +20,9 @@
         <ion-grid fixed>
           <ion-row class="animate__animated animate__fadeIn">
             <ion-col class="ion-no-padding">
-                <ion-avatar>
-                  <ion-img [src]="usuario.avatar | avatar:usuario._id"></ion-img>
-                </ion-avatar>
+              <ion-avatar>
+                <ion-img [src]="usuario.avatar | avatar:usuario._id"></ion-img>
+              </ion-avatar>
             </ion-col>
           </ion-row>
 
@@ -30,20 +30,27 @@
             <ion-col>
               <ion-list>
                 <ion-list-header mode="md">
-                  <ion-label>
-                    <span style="font-weight: bold;">{{  nSeguidos }}</span>
-                    <span>&nbsp;Siguiendo</span>
-                  </ion-label>
-                  <ion-label>
-                    <span style="font-weight: bold;">{{ nPublicaciones }}</span>
-                    <span>&nbsp;Publicaciones</span>
-                  </ion-label>
-                  <ion-label>
-                    <span style="font-weight: bold;">{{ nFavoritos }}</span>
-                    <span>&nbsp;Me gusta</span>
-                  </ion-label>
+                  <ion-button (click)="openFollowers()" fill="clear" size="small" shape="round">
+                    <ion-label class="ion-text-capitalize">
+                      <span style="font-weight: bold;">{{  nSeguidos }}</span>
+                      <span>&nbsp;Siguiendo</span>
+                    </ion-label>
+                  </ion-button>
+                  <ion-button (click)="openPosts()" fill="clear" size="small" shape="round">
+                    <ion-label class="ion-text-capitalize">
+                      <span style="font-weight: bold;">{{ nPublicaciones }}</span>
+                      <span>&nbsp;Publicaciones</span>
+                    </ion-label>
+                  </ion-button>
+                  <ion-button (click)="openLikes()" fill="clear" size="small" shape="round">
+                    <ion-label>
+                      <span style="font-weight: bold;">{{ nFavoritos }}</span>
+                      <span class="ion-text-capitalize">&nbsp;Me</span>
+                      <span class="ion-text-lowercase">&nbsp;gusta</span>
+                    </ion-label>
+                  </ion-button>
                 </ion-list-header>
-                
+
                 <ion-item class="ion-no-padding">
                   <ion-label position="floating">Nombre</ion-label>
                   <ion-input name="nombre" type="text" [(ngModel)]="usuario.name" readonly></ion-input>
@@ -58,7 +65,8 @@
 
           <ion-row class="ion-margin animate__animated animate__fadeIn">
             <ion-col>
-              <ion-button color="primary" expand="block" shape="round" class="boton ion-no-padding" (click)="actualizar()">
+              <ion-button color="primary" expand="block" shape="round" class="boton ion-no-padding"
+                (click)="actualizar()">
                 <span class="ion-text-capitalize">Editar</span>
                 <span class="ion-text-lowercase">&nbsp;perfil</span>
               </ion-button>

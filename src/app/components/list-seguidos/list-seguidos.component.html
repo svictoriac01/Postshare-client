@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()" expand="block" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Seguidos</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="seguidos.length > 0">
+
+    <ion-item *ngFor="let usuario of seguidos" class="animate__animated animate__fadeIn animate__faster">
+
+      <ion-avatar slot="start">
+        <img [src]="usuario.avatar | avatar:usuario._id" />
+      </ion-avatar>
+
+      <ion-label>
+        <h2 style="font-weight: bold;">{{ usuario.name }}</h2>
+        <p>@{{ usuario.username }}</p>
+      </ion-label>
+
+      <ion-button (click)="unfollow(usuario)" expand="full"  shape="round" size="default" slot="end">
+        <ion-label class="ion-text-capitalize">Siguiendo</ion-label>  
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-slides *ngIf="seguidos.length === 0" [options]="slideOpts">
+    <ion-slide>
+      <ion-label style="font-weight: bold;">No se encontraron usuarios</ion-label>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>
