@@ -9,6 +9,7 @@ import { SocialService } from '../../services/social.service';
 import { Post } from '../../interfaces/posts.interface';
 import { NavigationExtras } from '@angular/router';
 import { ListSeguidosComponent } from '../../components/list-seguidos/list-seguidos.component';
+import { UiServiceService } from '../../services/ui-service.service';
 
 
 declare let window: any;
@@ -29,7 +30,7 @@ export class Tab3Page implements OnInit {
   nFavoritos = 0;
   viewPosts = new EventEmitter<string>();
 
-  constructor(private usuarioService: UsuarioService, private socialService: SocialService,
+  constructor(private usuarioService: UsuarioService, private socialService: SocialService, private uiService: UiServiceService,
     private postsService: PostsService, private modalCtrl: ModalController, private navCtrl: NavController) { }
 
 
@@ -97,14 +98,12 @@ export class Tab3Page implements OnInit {
     return await modal.present();
   }
 
-  openPosts() {
-    const data: NavigationExtras = { queryParams: { value: 'postme' } };
-    this.navCtrl.navigateForward(['/main/tabs/tab1'], data);
+  async openPosts() {
+    await this.uiService.navigatePage('/main/tabs/tab1', 'postme');
   }
 
-  openLikes() {
-    const data: NavigationExtras = { queryParams: { value: 'favs' }   };
-    this.navCtrl.navigateForward(['/main/tabs/tab1'], data);
+  async openLikes() {
+    await this.uiService.navigatePage('/main/tabs/tab1', 'favs');
   }
 
 }

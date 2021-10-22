@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, IonSegment } from '@ionic/angular';
@@ -9,6 +10,7 @@ import { Usuario } from '../../interfaces/usuario.interface';
 import { DataLocalService } from '../../services/data-local.service';
 import { SocialService } from '../../services/social.service';
 import { ActivatedRoute } from '@angular/router';
+import { UiServiceService } from '../../services/ui-service.service';
 
 @Component({
   selector: 'app-tab1',
@@ -23,26 +25,27 @@ export class Tab1Page implements OnInit {
   disabled = false;
 
   constructor(private postsService: PostsService, private socialService: SocialService,
-    private modalCtrl: ModalController, private usuarioService: UsuarioService, private route: ActivatedRoute) { }
+    private modalCtrl: ModalController, private usuarioService: UsuarioService, private uiService: UiServiceService) { }
 
   // Obtener las publicaciones
   async ngOnInit() {
-
-    this.route.queryParams.subscribe(params => {
-      if (params) {
-        this.segment.value = params.value;
-        this.loadData();
-      }
-    });
 
     this.segment.value = 'social';
     this.usuario = await this.usuarioService.getUsuario();
     this.loadData();
 
+    this.socialService.follow.subscribe(() => this.loadData);
+
     this.postsService.newPost.subscribe(post => {
       this.posts.unshift(post);
     });
+
+    this.uiService.navEvent.subscribe(value => {
+      this.segment.value = value;
+      this.loadData();
+    });
   }
+
 
   // Refrescar elementos
   doRefresh(event) {
@@ -60,7 +63,9 @@ export class Tab1Page implements OnInit {
 
       switch (this.segment.value) {
         case 'social':
-          this.postsAux = this.posts;
+          this.socialService.getSocialData().subscribe(socialData => {
+            this.postsAux = this.posts.filter(post => post.usuario._id === this.usuario._id || socialData.social.seguidos.some(user => post.usuario._id === user._id));
+          });
           break;
         case 'postme':
           this.postsAux = this.posts.filter(post => post.usuario._id === this.usuario._id);

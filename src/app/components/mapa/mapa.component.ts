@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 
@@ -11,6 +12,7 @@ export class MapaComponent implements OnInit {
 
   @Input() coords: string;
   @ViewChild('mapa', { static: true }) mapa: any;
+  img = '';
 
   constructor() { }
 
@@ -37,6 +39,7 @@ export class MapaComponent implements OnInit {
     const marker = new mapboxgl.Marker()
       .setLngLat([lng, lat])
       .addTo(map);
-  }
 
+    map.on('load', () => this.img = map.getCanvas().toDataURL());
+  }
 }
