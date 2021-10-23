@@ -34,10 +34,14 @@ export class Tab1Page implements OnInit {
     this.usuario = await this.usuarioService.getUsuario();
     this.loadData();
 
-    this.socialService.follow.subscribe(() => this.loadData);
+    this.socialService.follow.subscribe(() => {
+      this.loadData(null, true);
+      this.posts = [];
+    });
 
-    this.postsService.newPost.subscribe(post => {
-      this.posts.unshift(post);
+    this.postsService.newPost.subscribe(() => {
+      this.loadData(null, true);
+      this.posts = [];
     });
 
     this.uiService.navEvent.subscribe(value => {
