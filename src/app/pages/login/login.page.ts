@@ -13,7 +13,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class LoginPage implements OnInit {
   // Hace referencia a un elemento del DOM
   @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
-  loginUser = { user: 'santivc_07', password: '4321' };
+  loginUser = { user: '', password: '' };
 
   constructor(private navCtrl: NavController, private usuarioService: UsuarioService,
     private uiService: UiServiceService) { }

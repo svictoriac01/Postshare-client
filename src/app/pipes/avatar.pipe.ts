@@ -11,7 +11,7 @@ const URL = environment.url;
 export class AvatarPipe implements PipeTransform {
 
   transform(img: string, userId: string): string {
-    return `${URL}/user/avatar/${userId}/${img}`;
+    return `${URL}/user/avatar/${userId || 'undefined'}/${img || 'undefined'}`;
   }
 
 }

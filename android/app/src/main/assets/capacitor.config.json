@@ -1,9 +1,6 @@
 {
-	"appId": "io.ionic.starter",
+	"appId": "com.postshare.project",
 	"appName": "PostShare",
 	"webDir": "www",
-	"bundledWebRuntime": false,
-	"server": {
-		"url": "http://192.168.1.81:8101"
-	}
+	"bundledWebRuntime": false
 }

@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.postshare.project;
 
 import com.getcapacitor.BridgeActivity;
 

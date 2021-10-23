@@ -16,11 +16,11 @@ export class RegisterPage implements OnInit {
   // Hace referencia a un elemento del DOM
   @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
   registerUser: Usuario = {
-    email: 'test04@hotmail.com',
-    password: '4321',
-    name: 'test04',
-    username: 'test_04',
-    avatar: 'default.png'
+    email: '',
+    password: '',
+    name: '',
+    username: '',
+    avatar: ''
   };
 
   constructor(private usuarioService: UsuarioService,
