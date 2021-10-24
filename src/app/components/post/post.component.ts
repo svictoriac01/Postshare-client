@@ -2,13 +2,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Post } from '../../interfaces/posts.interface';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { PostsService } from '../../services/posts.service';
 import { DataLocalService } from '../../services/data-local.service';
 import { SocialService } from '../../services/social.service';
 import { Social } from '../../interfaces/social.interface';
 import { UsuarioService } from '../../services/usuario.service';
+import { DetailsUserComponent } from '../details-user/details-user.component';
+import { Usuario } from 'src/app/interfaces/usuario.interface';
 
 
 const URL = environment.url;
@@ -26,11 +28,12 @@ export class PostComponent implements OnInit {
     allowSlidePrev: false
   };
   socialData: Social = {};
-  favoritos: Post [] = [];
+  favoritos: Post[] = [];
   isLike = false;
+  usuario: Usuario = {};
 
   constructor(private socialSharing: SocialSharing, private postsService: PostsService,
-    private socialService: SocialService) { }
+    private socialService: SocialService, private modalCtrl: ModalController, private usuarioService: UsuarioService) { }
 
   async ngOnInit() {
     this.socialService.getSocialData().subscribe(postsFav => {
@@ -40,6 +43,7 @@ export class PostComponent implements OnInit {
         this.isLike = true;
       }
     });
+    this.usuario = await this.usuarioService.getUsuario();
   }
 
   // Compartir publicación
@@ -61,5 +65,16 @@ export class PostComponent implements OnInit {
       this.removePost.emit(this.post);
     }
     await this.postsService.updatePosts(this.post);
+  }
+
+  async verUsuario() {
+    const myUser = this.post.usuario._id === this.usuario._id;
+
+    const modal = await this.modalCtrl.create({
+      component: DetailsUserComponent,
+      componentProps: { usuario: this.post.usuario, myUser },
+      animated: true
+    });
+    return await modal.present();
   }
 }

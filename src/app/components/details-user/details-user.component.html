@@ -20,9 +20,9 @@
         <ion-grid fixed>
           <ion-row class="animate__animated animate__fadeIn">
             <ion-col class="ion-no-padding">
-                <ion-avatar>
-                  <ion-img [src]="usuario.avatar | avatar:usuario._id"></ion-img>
-                </ion-avatar>
+              <ion-avatar>
+                <ion-img [src]="usuario.avatar | avatar:usuario._id"></ion-img>
+              </ion-avatar>
             </ion-col>
           </ion-row>
 
@@ -30,10 +30,12 @@
             <ion-col>
               <ion-list>
                 <ion-list-header mode="md">
-                  <ion-label>
-                    <span style="font-weight: bold;">{{ nSeguidos }}</span>
-                    <span>&nbsp;Seguidos</span>
-                  </ion-label>
+                  <ion-button (click)="openFollowers()" fill="clear" size="small" shape="round">
+                    <ion-label class="ion-text-capitalize">
+                      <span style="font-weight: bold;">{{ nSeguidos }}</span>
+                      <span>&nbsp;Seguidos</span>
+                    </ion-label>
+                  </ion-button>
                   <ion-label>
                     <span style="font-weight: bold;">{{ nPublicaciones }}</span>
                     <span>&nbsp;Publicaciones</span>
@@ -43,7 +45,7 @@
                     <span>&nbsp;Me gusta</span>
                   </ion-label>
                 </ion-list-header>
-                
+
                 <ion-item class="ion-no-padding" lines="none">
                   <ion-label position="floating">Nombre</ion-label>
                   <ion-input name="nombre" type="text" [(ngModel)]="usuario.name" readonly></ion-input>
@@ -56,9 +58,10 @@
             </ion-col>
           </ion-row>
 
-          <ion-row class="ion-margin animate__animated animate__fadeIn">
+          <ion-row class="ion-margin animate__animated animate__fadeIn" *ngIf="!myUser">
             <ion-col>
-              <ion-button color="primary" expand="block" [fill]="isFollow ? 'solid': 'outline'" shape="round" class="boton ion-no-padding" (click)="follow()">
+              <ion-button color="primary" expand="block" [fill]="isFollow ? 'solid': 'outline'" shape="round"
+                class="boton ion-no-padding" (click)="follow()">
                 <span class="ion-text-capitalize">{{ state }}</span>
               </ion-button>
             </ion-col>
@@ -70,4 +73,3 @@
   </ion-slides>
 
 </ion-content>
-

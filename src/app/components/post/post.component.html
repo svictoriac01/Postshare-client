@@ -2,10 +2,10 @@
 
   <!-- Usuario -->
   <ion-item lines="none">
-    <ion-avatar slot="start">
+    <ion-avatar slot="start" (click)="verUsuario()">
       <img [src]="post.usuario.avatar | avatar:post.usuario._id" />
     </ion-avatar>
-    <ion-label>
+    <ion-label (click)="verUsuario()">
       <h3>{{post.usuario.name}}</h3>
       <h5 style="color: gray;">@{{post.usuario.username}}</h5>
     </ion-label>

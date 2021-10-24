@@ -5,6 +5,7 @@ import { IonSlides, ModalController } from '@ionic/angular';
 import { Usuario } from '../../interfaces/usuario.interface';
 import { SocialService } from '../../services/social.service';
 import { PostsService } from '../../services/posts.service';
+import { ListSeguidosComponent } from '../list-seguidos/list-seguidos.component';
 
 @Component({
   selector: 'app-details-user',
@@ -14,6 +15,7 @@ import { PostsService } from '../../services/posts.service';
 export class DetailsUserComponent implements OnInit {
   @ViewChild('slidePrincipal', { static: true }) slides: IonSlides;
   @Input() usuario: Usuario = {};
+  @Input() myUser = false;
   seguidores: Usuario[] = [];
   isFollow = false;
   state = 'Seguir';
@@ -59,6 +61,16 @@ export class DetailsUserComponent implements OnInit {
       this.state = 'Seguir';
     }
 
+  }
+
+  async openFollowers() {
+    const modal = await this.modalCtrl.create({
+      component: ListSeguidosComponent,
+      animated: true,
+      componentProps: { usuario: this.usuario, notButton: true }
+    });
+
+    return await modal.present();
   }
 
   closeModal() {
