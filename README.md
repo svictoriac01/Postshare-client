@@ -41,9 +41,11 @@ Use the package manager [npm](https://nodejs.org/es/) to install and android stu
 
 ## Images
 
-![alt text](https://github.com/svictoriac01/Postshare-client/tree/main/src/assets/images/login.png?raw=true)
-![alt text](https://github.com/svictoriac01/Postshare-client/tree/main/src/assets/images/home.png?raw=true)
-![alt text](https://github.com/svictoriac01/Postshare-client/tree/main/src/assets/images/create-post.png?raw=true)
-![alt text](https://github.com/svictoriac01/Postshare-client/tree/main/src/assets/images/news.png?raw=true)
-![alt text](https://github.com/svictoriac01/Postshare-client/tree/main/src/assets/images/profile.png?raw=true)
+![login](https://user-images.githubusercontent.com/74670377/196355122-d7a93e8a-9f41-4d95-adc6-8b80697282da.png)
+![home](https://user-images.githubusercontent.com/74670377/196355186-26a87fd9-f414-46e0-a5f4-c097bf826548.png)
+![create-post](https://user-images.githubusercontent.com/74670377/196355218-cafe4c0b-8f86-4017-a690-5d9fd5cacefa.png)
+![profile](https://user-images.githubusercontent.com/74670377/196355247-0bb82d33-7988-4439-b29c-92239a861132.png)
+![news](https://user-images.githubusercontent.com/74670377/196355335-d873fff7-3adc-483d-b905-07901fa3aa76.png)
+
+
 
